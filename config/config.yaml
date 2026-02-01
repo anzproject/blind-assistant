@@ -1,0 +1,191 @@
+# AI-Based Blind Assistant - Configuration File
+
+# System Settings
+system:
+  mode: "development"  # development, production
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  device: "laptop"  # laptop, raspberry_pi
+  
+# API Keys (Set these as environment variables for security)
+api_keys:
+  openai_api_key: "${OPENAI_API_KEY}"
+  google_maps_api_key: "${GOOGLE_MAPS_API_KEY}"
+
+# Camera Settings
+camera:
+  resolution: [1920, 1080]  # Width x Height
+  fps: 30
+  rotation: 0  # 0, 90, 180, 270
+  auto_focus: true
+  
+# Object Detection
+object_detection:
+  model: "yolov8n"  # yolov8n, yolov8s, yolov8m (n=nano, s=small, m=medium)
+  confidence_threshold: 0.5
+  iou_threshold: 0.45
+  max_detections: 10
+  device: "cpu"  # cpu, cuda (for laptop with GPU)
+  
+# Scene Description
+scene_description:
+  online_model: "gpt-4o"  # gpt-4o, gpt-4-vision-preview
+  offline_model: "blip2"  # blip2, llava
+  mode: "auto"  # online, offline, auto (switches based on connectivity)
+  max_tokens: 150
+  temperature: 0.7
+  
+# Distance Estimation
+distance_estimation:
+  model: "midas"  # midas, depth_anything
+  method: "monocular"  # monocular, heuristic
+  max_distance: 10  # meters
+  
+# OCR Settings
+ocr:
+  engine: "easyocr"  # easyocr, tesseract
+  languages: ["en"]  # Add more languages as needed
+  gpu: false
+  
+# Emotion Recognition
+emotion_recognition:
+  enabled: true
+  model: "deepface"  # deepface, fer
+  emotions: ["happy", "sad", "angry", "surprise", "neutral", "fear", "disgust"]
+  
+# Face Recognition
+face_recognition:
+  enabled: true
+  model: "facenet"  # facenet, arcface
+  tolerance: 0.6  # Lower = stricter matching
+  database_path: "data/user_data/faces"
+  
+# Speech-to-Text
+speech_to_text:
+  engine: "vosk"  # vosk, whisper
+  model_path: "models/vosk-model-small-en-us-0.15"
+  language: "en-US"
+  sample_rate: 16000
+  
+# Text-to-Speech
+text_to_speech:
+  engine: "pyttsx3"  # pyttsx3, gtts
+  voice: "default"  # default, male, female
+  rate: 175  # Words per minute
+  volume: 1.0  # 0.0 to 1.0
+  
+# GPS & Navigation
+gps:
+  port: "/dev/ttyAMA0"  # Serial port for GPS module (Linux/Pi)
+  baudrate: 9600
+  timeout: 1
+  update_interval: 1  # seconds
+  
+navigation:
+  api: "google_maps"  # google_maps, openstreetmap
+  mode: "walking"  # walking, driving
+  units: "metric"  # metric, imperial
+  announce_distance: 20  # meters before turn
+  
+# Obstacle Detection
+obstacle_detection:
+  enabled: true
+  sensors:
+    - type: "ultrasonic"
+      pin_trigger: 23
+      pin_echo: 24
+      max_distance: 400  # cm
+  alert_distance: 100  # cm
+  
+# Haptic Feedback
+haptic_feedback:
+  enabled: true
+  motor_pin: 18
+  patterns:
+    obstacle_near: [200, 100, 200]  # vibration pattern in ms
+    navigation_turn: [500]
+    emergency: [1000, 500, 1000, 500, 1000]
+    
+# Bluetooth
+bluetooth:
+  auto_connect: true
+  device_name: "BlindAssistant"
+  paired_devices: []  # Will be populated during pairing
+  
+# Novel Features
+currency_recognition:
+  enabled: true
+  supported_currencies: ["USD", "EUR", "INR"]  # Add your local currency
+  model_path: "models/currency_classifier.pth"
+  
+color_identification:
+  enabled: true
+  method: "kmeans"  # kmeans, dominant
+  num_colors: 3
+  
+context_awareness:
+  enabled: true
+  modes:
+    - "shopping"
+    - "navigation"
+    - "social"
+    - "reading"
+  auto_detect: true
+  
+emergency_sos:
+  enabled: true
+  contacts:
+    - name: "Emergency Contact 1"
+      phone: "+1234567890"
+      email: "emergency@example.com"
+  trigger_phrase: "emergency help"
+  trigger_button: 17  # GPIO pin for physical button
+  
+personalization:
+  enabled: true
+  learning_rate: 0.1
+  save_preferences: true
+  preferences_path: "data/user_data/preferences.json"
+  
+multi_language:
+  enabled: true
+  supported_languages: ["en", "es", "fr", "de", "hi"]  # Add more as needed
+  default_language: "en"
+  auto_detect: false
+  
+# Performance & Optimization
+performance:
+  max_cpu_temp: 80  # Celsius (for Raspberry Pi)
+  throttle_on_overheat: true
+  max_memory_usage: 6000  # MB
+  enable_model_quantization: true  # For Raspberry Pi deployment
+  
+# Power Management
+power:
+  battery_monitoring: true
+  low_battery_threshold: 20  # percentage
+  power_saving_mode: false
+  reduce_fps_on_low_battery: true
+  
+# Data & Privacy
+data:
+  save_logs: true
+  log_retention_days: 30
+  save_images: false  # Save captured images for debugging
+  anonymize_data: true
+  
+# Voice Commands
+voice_commands:
+  wake_word: "assistant"  # Wake word to activate
+  timeout: 5  # seconds to wait for command after wake word
+  continuous_listening: true
+  commands:
+    - "what do you see"
+    - "read text"
+    - "where am I"
+    - "navigate to"
+    - "who is this"
+    - "what color is this"
+    - "identify currency"
+    - "emergency help"
+    - "describe scene"
+    - "detect obstacles"
